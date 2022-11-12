@@ -63,7 +63,7 @@ const ProcessedReports = () => {
                             : record.content}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm">
-                          <span className="bg-orange-600 px-2 p-2 rounded-full font-gold text-orange-100 text-sm">
+                          <span className="bg-green-600 px-2 p-2 rounded-full font-gold text-green-100 text-sm">
                             {record.status}
                           </span>
                         </td>
