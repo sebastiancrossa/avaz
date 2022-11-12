@@ -60,30 +60,32 @@ export default function Example() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {records.map((record) => (
-                    <tr
-                      key={record.id}
-                      className="hover:bg-gray-100 cursor-pointer"
-                      onClick={() => {
-                        router.push("/records/" + record.id);
-                        console.log("click");
-                      }}
-                    >
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                        {record.doctor}
-                      </td>
-                      <td className="pl-3 pr-9 w-[50%] py-4 text-sm text-gray-500 text-ellipsis ">
-                        {record.content.length > 100
-                          ? record.content.substring(0, 100) + "..."
-                          : record.content}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm">
-                        <span className="bg-orange-600 px-2 p-2 rounded-full font-gold text-orange-100 text-sm">
-                          {record.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                  {records
+                    .filter((record) => record.status === "pending")
+                    .map((record) => (
+                      <tr
+                        key={record.id}
+                        className="hover:bg-gray-100 cursor-pointer"
+                        onClick={() => {
+                          router.push("/records/" + record.id);
+                          console.log("click");
+                        }}
+                      >
+                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                          {record.doctor}
+                        </td>
+                        <td className="pl-3 pr-9 w-[50%] py-4 text-sm text-gray-500 text-ellipsis ">
+                          {record.content.length > 100
+                            ? record.content.substring(0, 100) + "..."
+                            : record.content}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm">
+                          <span className="bg-orange-600 px-2 p-2 rounded-full font-gold text-orange-100 text-sm">
+                            {record.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
