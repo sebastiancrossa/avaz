@@ -1,8 +1,37 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/24/outline";
+import { records } from "../db";
 
 const Modal = ({ open, setOpen }) => {
+  const [loading, setLoading] = useState(false);
+
+  const mp3Url =
+    "https://res.cloudinary.com/kisana/video/upload/v1668233815/test-audio_cdk6jv.mp3";
+
+  const transcribeAudio = async () => {
+    setLoading(true);
+
+    const response = await fetch(
+      `https://densegaseousequation.jonathanchavezt.repl.co/api/transcribe?mp3path=${mp3Url}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Something went wrong!");
+    } else {
+      const data = await response.text();
+
+      records.push({
+        id: records.length + 1,
+        doctor: "Channing Tatum",
+        content: data,
+        status: "pending",
+      });
+    }
+
+    setOpen(false);
+    setLoading(false);
+  };
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={() => setOpen(false)}>
@@ -36,7 +65,7 @@ const Modal = ({ open, setOpen }) => {
                       as="h3"
                       className="text-lg font-medium leading-6 text-gray-900"
                     >
-                      tbd
+                      Upload media
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
@@ -49,10 +78,11 @@ const Modal = ({ open, setOpen }) => {
                 <div className="mt-5 sm:mt-6">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm"
-                    onClick={() => setOpen(false)}
+                    onClick={transcribeAudio}
+                    disabled={loading}
+                    className="disabled:cursor-not-allowed inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm disabled:opacity-50"
                   >
-                    Go back to dashboard
+                    {loading ? "..." : "Convert MP3 file"}
                   </button>
                 </div>
               </Dialog.Panel>

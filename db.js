@@ -1,4 +1,4 @@
-const records = [
+let records = [
   {
     id: 1,
     doctor: "Jacob Moskovitz",
