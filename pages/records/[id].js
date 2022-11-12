@@ -81,26 +81,37 @@ export default function RecordId() {
       {loading && <h1>Loading ...</h1>}
       {currentRecord && !loading && (
         <div className="grid grid-cols-6 gap-5 w-[95%]">
-          <div className="col-span-4 p-6 bg-white rounded-md border ">
-            <h1 className="text-lg text-gray-700">
-              From: Dr. {currentRecord.doctor}
-            </h1>
-            <div className="my-6">
-              {parsedTokens?.map((token) => {
-                if (token.entity) {
-                  return (
-                    <span
-                      className={`px-2 py-1 rounded-md ${entityClassName(
-                        token.entity.Type,
-                        token.entity.Category
-                      )}`}
-                    >
-                      {token.value}
-                    </span>
-                  );
-                }
-                return <span>{token.value} </span>;
-              })}
+          <div className="col-span-4 space-y-3">
+            {currentRecord.audio_url && (
+              <iframe
+                height="25"
+                src={currentRecord.audio_url}
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                className="w-full rounded-md border"
+              />
+            )}
+            <div className="col-span-4 p-6 bg-white rounded-md border ">
+              <h1 className="text-lg text-gray-700">
+                From: Dr. {currentRecord.doctor}
+              </h1>
+              <div className="my-6">
+                {parsedTokens?.map((token) => {
+                  if (token.entity) {
+                    return (
+                      <span
+                        className={`px-2 py-1 rounded-md ${entityClassName(
+                          token.entity.Type,
+                          token.entity.Category
+                        )}`}
+                      >
+                        {token.value}
+                      </span>
+                    );
+                  }
+                  return <span>{token.value} </span>;
+                })}
+              </div>
             </div>
           </div>
           <div className="col-span-2 p-6 bg-white rounded-md border ">

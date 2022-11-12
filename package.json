@@ -8,6 +8,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^2.0.13",
+    "cloudinary-core": "^2.13.0",
     "mongoose": "^6.7.2",
     "next": "latest",
     "react": "18.2.0",
