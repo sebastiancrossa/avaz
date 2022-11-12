@@ -1,35 +1,18 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
-
-import Modal from "../components/Modal";
 import { Layout } from "../components/layout/Layout";
-
 import { records } from "../db";
 
-export default function Example() {
+const ProcessedReports = () => {
   const router = useRouter();
-
-  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <Layout>
-      <Modal open={modalOpen} setOpen={setModalOpen} />
-
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-xl font-semibold text-gray-900">Incoming</h1>
+          <h1 className="text-xl font-semibold text-gray-900">Processed</h1>
           <p className="mt-2 text-sm text-gray-700">
-            List of all incoming reports without PII sanitization.
+            List of all processed reports without PII sanitization.
           </p>
-        </div>
-        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <button
-            type="button"
-            onClick={() => setModalOpen(true)}
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-          >
-            + Upload media
-          </button>
         </div>
       </div>
       <div className="mt-8 flex flex-col">
@@ -92,4 +75,6 @@ export default function Example() {
       </div>
     </Layout>
   );
-}
+};
+
+export default ProcessedReports;
