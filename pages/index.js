@@ -10,6 +10,7 @@ import {
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { records } from "../db";
 
 const people = [
   {
@@ -245,7 +246,7 @@ export default function Example() {
                       Pending reports
                     </h1>
                     <p className="mt-2 text-sm text-gray-700">
-                      List of pending reports
+                      List of pending reports that need to be reviewed.
                     </p>
                   </div>
                   <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -268,57 +269,41 @@ export default function Example() {
                                 scope="col"
                                 className="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6"
                               >
-                                Name
+                                Doctor
                               </th>
                               <th
                                 scope="col"
                                 className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
                               >
-                                Title
-                              </th>
-                              <th
-                                scope="col"
-                                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                              >
-                                Email
-                              </th>
-                              <th
-                                scope="col"
-                                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                              >
-                                Role
+                                Content
                               </th>
                               <th
                                 scope="col"
                                 className="relative py-3 pl-3 pr-4 sm:pr-6"
                               >
-                                <span className="sr-only">Edit</span>
+                                <span className="sr-only">
+                                  Process contents
+                                </span>
                               </th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200 bg-white">
-                            {people.map((person) => (
-                              <tr key={person.email}>
+                            {records.map((record) => (
+                              <tr key={record.id}>
                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                  {person.name}
+                                  {record.doctor}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {person.title}
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {person.email}
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {person.role}
+                                  {record.content}
                                 </td>
                                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                   <a
                                     href="#"
                                     className="text-indigo-600 hover:text-indigo-900"
                                   >
-                                    Edit
+                                    Process
                                     <span className="sr-only">
-                                      , {person.name}
+                                      , {record.id}
                                     </span>
                                   </a>
                                 </td>
