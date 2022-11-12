@@ -29,8 +29,12 @@ export default function RecordId() {
     if (router.isReady) {
       const id = router.query.id;
       const record = records.find((record) => record.id === parseInt(id));
-      fetchEntities(record.content);
-      setCurrentRecord(record);
+
+      if (!record) router.push("/");
+      else {
+        fetchEntities(record.content);
+        setCurrentRecord(record);
+      }
     }
   }, [router.isReady]);
 
@@ -55,6 +59,8 @@ export default function RecordId() {
   useEffect(() => {
     setParsedTokens(parseContent(entities, currentRecord?.content));
   }, [entities]);
+
+  console.log(entities);
 
   const entityClassName = (type, category) => {
     if (category !== "PROTECTED_HEALTH_INFORMATION") return;
@@ -96,21 +102,23 @@ export default function RecordId() {
                 From: Dr. {currentRecord.doctor}
               </h1>
               <div className="my-6">
-                {parsedTokens?.map((token) => {
-                  if (token.entity) {
-                    return (
-                      <span
-                        className={`px-2 py-1 rounded-md ${entityClassName(
-                          token.entity.Type,
-                          token.entity.Category
-                        )}`}
-                      >
-                        {token.value}
-                      </span>
-                    );
-                  }
-                  return <span>{token.value} </span>;
-                })}
+                {entities?.length > 0
+                  ? parsedTokens?.map((token) => {
+                      if (token.entity) {
+                        return (
+                          <span
+                            className={`px-2 py-1 rounded-md ${entityClassName(
+                              token.entity.Type,
+                              token.entity.Category
+                            )}`}
+                          >
+                            {token.value}
+                          </span>
+                        );
+                      }
+                      return <span>{token.value} </span>;
+                    })
+                  : currentRecord.content}
               </div>
             </div>
           </div>
@@ -119,7 +127,7 @@ export default function RecordId() {
               Entities
             </h1>
             <div className="">
-              {entities &&
+              {entities?.length > 0 ? (
                 entities
                   .filter(
                     (entity) =>
@@ -145,7 +153,12 @@ export default function RecordId() {
                         </div>
                       </div>
                     </div>
-                  ))}
+                  ))
+              ) : (
+                <div className="text-center text-gray-500">
+                  No entities found
+                </div>
+              )}
             </div>
           </div>
         </div>
