@@ -38,11 +38,7 @@ export default function Example() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [highlightedContent, setHighlightedContent] = useState(null);
-
-  const mappedIndices = testResponse.Entities.map((entity) => [
-    entity.BeginOffset,
-    entity.EndOffset,
-  ]);
+  const [mappedIndices, setMappedIndices] = useState(null);
 
   useEffect(() => {
     const fetchContentResult = async (content) => {
@@ -57,9 +53,21 @@ export default function Example() {
       } else {
         const data = await response.json();
 
-        console.log(data);
+        console.log(
+          "response from fetchContentData",
+          data.filter(
+            (entity) => entity.Category === "PROTECTED_HEALTH_INFORMATION"
+          )
+        );
 
         setContentResult(data);
+        setMappedIndices(
+          data
+            .filter(
+              (entity) => entity.Category === "PROTECTED_HEALTH_INFORMATION"
+            )
+            .map((entity) => [entity.BeginOffset, entity.EndOffset])
+        );
       }
 
       setLoading(false);
@@ -73,9 +81,11 @@ export default function Example() {
 
       setHighlightedContent(
         mappedIndices
-          .reduce((str, [start, end]) => {
-            str[start] = `<span class="bg-yellow-400">${str[start]}`;
-            str[end] = `${str[end]}</span>`;
+          ?.reduce((str, [start, end]) => {
+            str[
+              start
+            ] = `<span class="bg-yellow-400 hover:bg-black">${str[start]}`;
+            str[end - 1] = `${str[end - 1]}</span>`;
             return str;
           }, record.content.split(""))
           .join("")
@@ -285,11 +295,10 @@ export default function Example() {
                   <div className="grid grid-cols-6 gap-5 w-[95%] p-4">
                     <div className="col-span-4 p-3 bg-white rounded-md border ">
                       <h1 className="text-md text-gray-500">
-                        Doctor: {currentRecord.doctor}
+                        From: Dr. {currentRecord.doctor}
                       </h1>
 
                       <div>
-                        Content:{" "}
                         <span
                           dangerouslySetInnerHTML={{
                             __html: highlightedContent,
@@ -300,18 +309,23 @@ export default function Example() {
 
                     <div className="col-span-2 p-3 bg-white rounded-md border ">
                       <h1 className=" text-gray-900">
-                        {contentResult.map((item) => (
-                          <div className="flex space-x-2">
-                            <div className="text-md">{item.Text}</div>
-                            <div className="text-md">
-                              {
-                                item.Score.toString().match(
-                                  /^-?\d+(?:\.\d{0,2})?/
-                                )[0]
-                              }
+                        {contentResult
+                          .filter(
+                            (entity) =>
+                              entity.Category === "PROTECTED_HEALTH_INFORMATION"
+                          )
+                          .map((item) => (
+                            <div className="flex space-x-2">
+                              <div className="text-md">{item.Text}</div>
+                              <div className="text-md">
+                                {
+                                  item.Score.toString().match(
+                                    /^-?\d+(?:\.\d{0,2})?/
+                                  )[0]
+                                }
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
                       </h1>
                     </div>
                   </div>
