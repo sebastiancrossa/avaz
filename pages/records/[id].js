@@ -30,8 +30,12 @@ export default function RecordId() {
     if (router.isReady) {
       const id = router.query.id;
       const record = records.find((record) => record.id === parseInt(id));
-      fetchEntities(record.content);
-      setCurrentRecord(record);
+
+      if (!record) router.push("/");
+      else {
+        fetchEntities(record.content);
+        setCurrentRecord(record);
+      }
     }
   }, [router.isReady]);
 
@@ -173,8 +177,10 @@ export default function RecordId() {
                 </h1>
                 <div className="">
                   {console.log(currentRecord)}
-
-                  {entities &&
+                  {entities?.filter(
+                    (entity) =>
+                      entity.Category === "PROTECTED_HEALTH_INFORMATION"
+                  ).length > 0 ? (
                     entities
                       .filter(
                         (entity) =>
@@ -201,7 +207,10 @@ export default function RecordId() {
                             </div>
                           </div>
                         </div>
-                      ))}
+                      ))
+                  ) : (
+                    <div>No entities found</div>
+                  )}
                 </div>
               </div>
             ) : (

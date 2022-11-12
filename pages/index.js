@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 import Modal from "../components/Modal";
+import TextModal from "../components/TextModal";
+
 import { Layout } from "../components/layout/Layout";
 
 import { records } from "../db";
@@ -10,10 +12,12 @@ export default function Example() {
   const router = useRouter();
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [textModalOpen, setTextModalOpen] = useState(false);
 
   return (
     <Layout>
       <Modal open={modalOpen} setOpen={setModalOpen} />
+      <TextModal open={textModalOpen} setOpen={setTextModalOpen} />
 
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
@@ -22,13 +26,21 @@ export default function Example() {
             List of all incoming reports without PII sanitization.
           </p>
         </div>
-        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none space-x-3">
           <button
             type="button"
             onClick={() => setModalOpen(true)}
             className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto"
           >
             + Upload media
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setTextModalOpen(true)}
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-pink-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-900 focus:ring-offset-2 sm:w-auto"
+          >
+            + Upload document
           </button>
         </div>
       </div>
