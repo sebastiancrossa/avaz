@@ -123,7 +123,7 @@ const Modal = ({ open, setOpen }) => {
 
                     <button
                       disabled={!imageSrc || loading}
-                      className="mt-5 disabled:cursor-not-allowed inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm disabled:opacity-50"
+                      className="mt-5 disabled:cursor-not-allowed inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:text-sm disabled:opacity-50"
                     >
                       {loading ? "Loading..." : "Upload mp3"}
                     </button>
