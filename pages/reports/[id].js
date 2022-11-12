@@ -79,16 +79,20 @@ export default function Example() {
 
       fetchContentResult(record.content);
 
+      console.log(mappedIndices);
+
       setHighlightedContent(
-        mappedIndices
-          ?.reduce((str, [start, end]) => {
-            str[
-              start
-            ] = `<span class="bg-yellow-400 hover:bg-black">${str[start]}`;
-            str[end - 1] = `${str[end - 1]}</span>`;
-            return str;
-          }, record.content.split(""))
-          .join("")
+        mappedIndices?.length > 0
+          ? mappedIndices
+              ?.reduce((str, [start, end]) => {
+                str[
+                  start
+                ] = `<span class="bg-yellow-400 hover:bg-black">${str[start]}`;
+                str[end - 1] = `${str[end - 1]}</span>`;
+                return str;
+              }, record.content.split(""))
+              .join("")
+          : record.content
       );
 
       setCurrentRecord(record);
