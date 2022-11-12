@@ -41,6 +41,8 @@ export default function Example() {
   const [mappedIndices, setMappedIndices] = useState(null);
 
   useEffect(() => {
+    let localData = null;
+
     const fetchContentResult = async (content) => {
       setLoading(true);
 
@@ -61,6 +63,11 @@ export default function Example() {
         );
 
         setContentResult(data);
+        localData = data
+          .filter(
+            (entity) => entity.Category === "PROTECTED_HEALTH_INFORMATION"
+          )
+          .map((entity) => [entity.BeginOffset, entity.EndOffset]);
         setMappedIndices(
           data
             .filter(
@@ -70,34 +77,41 @@ export default function Example() {
         );
       }
 
+      console.log(
+        "localdata from fetchContentResult",
+        localData,
+        mappedIndices
+      );
       setLoading(false);
     };
 
     if (router.isReady) {
+      console.log("router.isReady");
+
       const id = router.query.id;
       const record = records.find((record) => record.id === parseInt(id));
 
       fetchContentResult(record.content);
 
-      console.log(mappedIndices);
-
-      setHighlightedContent(
-        mappedIndices?.length > 0
-          ? mappedIndices
-              ?.reduce((str, [start, end]) => {
-                str[
-                  start
-                ] = `<span class="bg-yellow-400 hover:bg-black">${str[start]}`;
-                str[end - 1] = `${str[end - 1]}</span>`;
-                return str;
-              }, record.content.split(""))
-              .join("")
-          : record.content
-      );
-
       setCurrentRecord(record);
     }
   }, [router.isReady]);
+
+  useEffect(() => {
+    setHighlightedContent(
+      mappedIndices?.length > 0
+        ? mappedIndices
+            ?.reduce((str, [start, end]) => {
+              str[
+                start
+              ] = `<span class="bg-yellow-400 hover:bg-black">${str[start]}`;
+              str[end - 1] = `${str[end - 1]}</span>`;
+              return str;
+            }, currentRecord?.content.split(""))
+            .join("")
+        : currentRecord?.content
+    );
+  }, [mappedIndices, currentRecord]);
 
   return (
     <>
