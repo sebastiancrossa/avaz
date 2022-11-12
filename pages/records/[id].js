@@ -1,30 +1,7 @@
-import { Fragment, useState, useEffect } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import {
-  Bars3Icon,
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  UsersIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { useState, useEffect } from "react";
 import { records } from "../../db";
 import { useRouter } from "next/router";
 import { Layout } from "../../components/layout/Layout";
-
-const navigation = [
-  {
-    name: "Reports",
-    icon: InboxIcon,
-    current: true,
-  },
-];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function RecordId() {
   const router = useRouter();
@@ -32,13 +9,10 @@ export default function RecordId() {
   const [contentResult, setContentResult] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [highlightedContent, setHighlightedContent] = useState(null);
   const [mappedIndices, setMappedIndices] = useState(null);
 
   useEffect(() => {
-    let localData = null;
-
     const fetchContentResult = async (content) => {
       setLoading(true);
 
@@ -51,19 +25,8 @@ export default function RecordId() {
       } else {
         const data = await response.json();
 
-        console.log(
-          "response from fetchContentData",
-          data.filter(
-            (entity) => entity.Category === "PROTECTED_HEALTH_INFORMATION"
-          )
-        );
-
         setContentResult(data);
-        localData = data
-          .filter(
-            (entity) => entity.Category === "PROTECTED_HEALTH_INFORMATION"
-          )
-          .map((entity) => [entity.BeginOffset, entity.EndOffset]);
+
         setMappedIndices(
           data
             .filter(
@@ -73,11 +36,6 @@ export default function RecordId() {
         );
       }
 
-      console.log(
-        "localdata from fetchContentResult",
-        localData,
-        mappedIndices
-      );
       setLoading(false);
     };
 
@@ -108,7 +66,7 @@ export default function RecordId() {
 
   return (
     <Layout>
-      {loading && <h1>loading...</h1>}
+      {loading && <h1>Loading ...</h1>}
       {currentRecord && !loading && (
         <div className="grid grid-cols-6 gap-5 w-[95%] p-4">
           <div className="col-span-4 p-3 bg-white rounded-md border ">
