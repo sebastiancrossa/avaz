@@ -95,7 +95,7 @@ export default function Example() {
                     <div className="flex flex-shrink-0 items-center px-4">
                       <img
                         className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                        src="public/logo.png"
                         alt="Your Company"
                       />
                     </div>
@@ -163,7 +163,7 @@ export default function Example() {
               <div className="flex flex-shrink-0 items-center px-4">
                 <img
                   className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                  src="/logo.png"
                   alt="Your Company"
                 />
               </div>
@@ -243,9 +243,9 @@ export default function Example() {
                     <button
                       type="button"
                       onClick={() => setModalOpen(true)}
-                      className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+                      className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
                     >
-                      Upload call audio
+                      + Upload media
                     </button>
                   </div>
                 </div>
@@ -274,44 +274,30 @@ export default function Example() {
                               >
                                 Status
                               </th>
-                              <th
-                                scope="col"
-                                className="relative py-3 pl-3 pr-4 sm:pr-6"
-                              >
-                                <span className="sr-only">
-                                  Process contents
-                                </span>
-                              </th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200 bg-white">
                             {records.map((record) => (
-                              <tr key={record.id}>
+                              <tr
+                                key={record.id}
+                                className="hover:bg-gray-100 cursor-pointer"
+                                onClick={() => {
+                                  router.push("/reports/" + record.id);
+                                  console.log("click");
+                                }}
+                              >
                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                   {record.doctor}
                                 </td>
-                                <td className="px-3 py-4 text-sm text-gray-500 text-ellipsis ">
-                                  {record.content}
+                                <td className="pl-3 pr-9 w-[50%] py-4 text-sm text-gray-500 text-ellipsis ">
+                                  {record.content.length > 100
+                                    ? record.content.substring(0, 100) + "..."
+                                    : record.content}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                  <span className="bg-orange-500 px-2 py-1 rounded-full font-gold text-orange-100 text-sm">
+                                  <span className="bg-orange-600 px-2 p-2 rounded-full font-gold text-orange-100 text-sm">
                                     {record.status}
                                   </span>
-                                </td>
-                                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                  <a
-                                    href="#"
-                                    className="text-indigo-600 hover:text-indigo-900"
-                                    onClick={() => {
-                                      router.push("/reports/" + record.id);
-                                      console.log("click");
-                                    }}
-                                  >
-                                    Process
-                                    <span className="sr-only">
-                                      , {record.id}
-                                    </span>
-                                  </a>
                                 </td>
                               </tr>
                             ))}
