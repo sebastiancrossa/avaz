@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -10,7 +10,8 @@ import {
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { records } from "../db";
+import { records } from "../../db";
+import { useRouter } from "next/router";
 
 const navigation = [
   { name: "Pending Reports", href: "#", icon: InboxIcon, current: true },
@@ -26,6 +27,11 @@ function classNames(...classes) {
 }
 
 export default function Example() {
+  const router = useRouter();
+  const id = router.query.id;
+
+  const [currentRecord, setCurrentRecord] = useState(records[id - 1]);
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -222,79 +228,21 @@ export default function Example() {
           <main className="flex-1">
             <div className="py-16">
               <div className="px-4 sm:px-6 lg:px-8">
-                <div className="sm:flex sm:items-center">
-                  <div className="sm:flex-auto">
-                    <h1 className="text-xl font-semibold text-gray-900">
-                      Pending reports
+                <div className="grid grid-cols-6 gap-5 w-[95%] p-4">
+                  <div className="col-span-3 p-3 bg-white rounded-md border space-y-3">
+                    <h1 className="text-md text-gray-500">
+                      from {currentRecord.doctor}
                     </h1>
-                    <p className="mt-2 text-sm text-gray-700">
-                      List of pending reports that need to be reviewed.
-                    </p>
-                  </div>
-                  <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                    <button
-                      type="button"
-                      className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-                    >
-                      Upload call audio
-                    </button>
-                  </div>
-                </div>
-                <div className="mt-8 flex flex-col">
-                  <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                      <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                        <table className="min-w-full divide-y divide-gray-300">
-                          <thead className="bg-gray-50">
-                            <tr>
-                              <th
-                                scope="col"
-                                className="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6"
-                              >
-                                Doctor
-                              </th>
-                              <th
-                                scope="col"
-                                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                              >
-                                Content
-                              </th>
-                              <th
-                                scope="col"
-                                className="relative py-3 pl-3 pr-4 sm:pr-6"
-                              >
-                                <span className="sr-only">
-                                  Process contents
-                                </span>
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-gray-200 bg-white">
-                            {records.map((record) => (
-                              <tr key={record.id}>
-                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                  {record.doctor}
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {record.content}
-                                </td>
-                                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                  <a
-                                    href="#"
-                                    className="text-indigo-600 hover:text-indigo-900"
-                                  >
-                                    Process
-                                    <span className="sr-only">
-                                      , {record.id}
-                                    </span>
-                                  </a>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
+
+                    <div className="text-lg italic">
+                      "{currentRecord.content}"
                     </div>
+                  </div>
+
+                  <div className="col-span-3 p-3 bg-white rounded-md border ">
+                    <h1 className="text-xl font-bold text-gray-900">
+                      results here
+                    </h1>
                   </div>
                 </div>
               </div>
