@@ -8,6 +8,7 @@ import {
   HomeIcon,
   InboxIcon,
   UsersIcon,
+  CheckCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { records } from "../db";
@@ -16,8 +17,8 @@ import { useRouter } from "next/router";
 import Modal from "../components/Modal";
 
 const navigation = [
-  { name: "Reports", href: "#", icon: InboxIcon, current: true },
-  // { name: "Team", href: "#", icon: UsersIcon, current: false },
+  { name: "Incoming", href: "#", icon: InboxIcon, current: true },
+  { name: "Processed", href: "#", icon: CheckCircleIcon, current: false },
   // { name: "Projects", href: "#", icon: FolderIcon, current: false },
   // { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
   // { name: "Documents", href: "#", icon: InboxIcon, current: false },
@@ -233,10 +234,10 @@ export default function Example() {
                 <div className="sm:flex sm:items-center">
                   <div className="sm:flex-auto">
                     <h1 className="text-xl font-semibold text-gray-900">
-                      Reports
+                      Incoming
                     </h1>
                     <p className="mt-2 text-sm text-gray-700">
-                      List of all reports
+                      List of all incoming reports without PII sanitization.
                     </p>
                   </div>
                   <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">

@@ -1,12 +1,18 @@
 const records = [
   {
     id: 1,
-    doctor: "John Doe",
+    doctor: "Jacob Moskovitz",
     content:
       "Pt is 87 yo woman, highschool teacher with past medical history that includes   - status post cardiac catheterization in April 2019.She presents today with palpitations and chest pressure.HPI : Sleeping trouble on present dosage of Clonidine. Severe Rash  on face and leg, slightly itchy  Meds : Vyvanse 50 mgs po at breakfast daily,             Clonidine 0.2 mgs -- 1 and 1 / 2 tabs po qhs HEENT : Boggy inferior turbinates, No oropharyngeal lesion Lungs : clear Heart : Regular rhythm Skin :  Mild erythematous eruption to hairline Follow-up as scheduled",
     status: "pending",
   },
-  { id: 2, doctor: "Jane Doe", content: "Lorem ipsum", status: "pending" },
+  {
+    id: 2,
+    doctor: "Diana Rivera",
+    content:
+      "Mr . Nesser is a 52 - year - old Caucasian male with an extensive past medical history that includes coronary artery disease , atrial fibrillation , hypertension , hyperlipidemia , presented to North ED with complaints of chills , nausea , acute left flank pain and some numbness in his left leg.",
+    status: "pending",
+  },
   { id: 3, doctor: "John Doe", content: "Lorem ipsum", status: "pending" },
   { id: 4, doctor: "Jane Doe", content: "Lorem ipsum", status: "pending" },
   { id: 5, doctor: "John Doe", content: "Lorem ipsum", status: "pending" },
