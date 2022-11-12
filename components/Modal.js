@@ -1,18 +1,14 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { records } from "../db";
 
 const Modal = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
+  const [imageSrc, setImageSrc] = useState();
 
-  const mp3Url =
-    "https://res.cloudinary.com/kisana/video/upload/v1668233815/test-audio_cdk6jv.mp3";
-
-  const transcribeAudio = async () => {
-    setLoading(true);
-
+  const transcribeAudio = async (url) => {
     const response = await fetch(
-      `https://densegaseousequation.jonathanchavezt.repl.co/api/transcribe?mp3path=${mp3Url}`
+      `https://densegaseousequation.jonathanchavezt.repl.co/api/transcribe?mp3path=${url}`
     );
 
     if (!response.ok) {
@@ -28,9 +24,48 @@ const Modal = ({ open, setOpen }) => {
       });
     }
 
-    setOpen(false);
     setLoading(false);
+    setOpen(false);
   };
+
+  function handleOnChange(changeEvent) {
+    const reader = new FileReader();
+
+    reader.onload = function (onLoadEvent) {
+      setImageSrc(onLoadEvent.target.result);
+    };
+
+    reader.readAsDataURL(changeEvent.target.files[0]);
+  }
+
+  async function handleOnSubmit(event) {
+    setLoading(true);
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const fileInput = Array.from(form.elements).find(
+      ({ name }) => name === "file"
+    );
+
+    const formData = new FormData();
+
+    for (const file of fileInput.files) {
+      formData.append("file", file);
+    }
+
+    formData.append("upload_preset", "avaz-audio");
+
+    const data = await fetch(
+      "https://api.cloudinary.com/v1_1/kisana/video/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    ).then((r) => r.json());
+
+    transcribeAudio(data.secure_url);
+    setImageSrc(data.secure_url);
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -76,14 +111,22 @@ const Modal = ({ open, setOpen }) => {
                   </div>
                 </div>
                 <div className="mt-5 sm:mt-6">
-                  <button
-                    type="button"
-                    onClick={transcribeAudio}
-                    disabled={loading}
-                    className="disabled:cursor-not-allowed inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm disabled:opacity-50"
+                  <form
+                    method="post"
+                    onChange={handleOnChange}
+                    onSubmit={handleOnSubmit}
                   >
-                    {loading ? "..." : "Convert MP3 file"}
-                  </button>
+                    <p>
+                      <input type="file" name="file" />
+                    </p>
+
+                    <button
+                      disabled={!imageSrc || loading}
+                      className="mt-5 disabled:cursor-not-allowed inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm disabled:opacity-50"
+                    >
+                      {loading ? "Loading..." : "Upload mp3"}
+                    </button>
+                  </form>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
