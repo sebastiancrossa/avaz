@@ -60,8 +60,6 @@ export default function RecordId() {
     setParsedTokens(parseContent(entities, currentRecord?.content));
   }, [entities]);
 
-  console.log(entities);
-
   const entityClassName = (type, category) => {
     if (category !== "PROTECTED_HEALTH_INFORMATION") return;
     switch (type) {
@@ -102,7 +100,9 @@ export default function RecordId() {
                 From: Dr. {currentRecord.doctor}
               </h1>
               <div className="my-6">
-                {entities?.length > 0
+                {entities?.filter(
+                  (entity) => entity.Category === "PROTECTED_HEALTH_INFORMATION"
+                ).length > 0
                   ? parsedTokens?.map((token) => {
                       if (token.entity) {
                         return (
@@ -127,7 +127,9 @@ export default function RecordId() {
               Entities
             </h1>
             <div className="">
-              {entities?.length > 0 ? (
+              {entities?.filter(
+                (entity) => entity.Category === "PROTECTED_HEALTH_INFORMATION"
+              ).length > 0 ? (
                 entities
                   .filter(
                     (entity) =>
