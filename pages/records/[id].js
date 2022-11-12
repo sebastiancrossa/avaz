@@ -69,17 +69,29 @@ export default function RecordId() {
       {loading && <h1>Loading ...</h1>}
       {currentRecord && !loading && (
         <div className="grid grid-cols-6 gap-5 w-[95%] p-4">
-          <div className="col-span-4 p-3 bg-white rounded-md border ">
-            <h1 className="text-md text-gray-500">
-              From: Dr. {currentRecord.doctor}
-            </h1>
-
-            <div>
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: highlightedContent,
-                }}
+          <div className="col-span-4 space-y-3">
+            {currentRecord.audio_url && (
+              <iframe
+                height="25"
+                src={currentRecord.audio_url}
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                className="w-full rounded-md border"
               />
+            )}
+
+            <div className="p-3 bg-white rounded-md border ">
+              <h1 className="text-md text-gray-500">
+                From: Dr. {currentRecord.doctor}
+              </h1>
+
+              <div>
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: highlightedContent,
+                  }}
+                />
+              </div>
             </div>
           </div>
 

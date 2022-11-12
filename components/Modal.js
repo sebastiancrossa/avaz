@@ -21,6 +21,7 @@ const Modal = ({ open, setOpen }) => {
         doctor: "Channing Tatum",
         content: data,
         status: "pending",
+        audio_url: url,
       });
     }
 
