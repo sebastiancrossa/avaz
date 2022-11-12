@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import Modal from "../components/Modal";
 
 const navigation = [
-  { name: "Pending Reports", href: "#", icon: InboxIcon, current: true },
+  { name: "Reports", href: "#", icon: InboxIcon, current: true },
   // { name: "Team", href: "#", icon: UsersIcon, current: false },
   // { name: "Projects", href: "#", icon: FolderIcon, current: false },
   // { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
@@ -233,10 +233,10 @@ export default function Example() {
                 <div className="sm:flex sm:items-center">
                   <div className="sm:flex-auto">
                     <h1 className="text-xl font-semibold text-gray-900">
-                      Pending reports
+                      Reports
                     </h1>
                     <p className="mt-2 text-sm text-gray-700">
-                      List of pending reports that need to be reviewed.
+                      List of all reports
                     </p>
                   </div>
                   <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -270,6 +270,12 @@ export default function Example() {
                               </th>
                               <th
                                 scope="col"
+                                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                              >
+                                Status
+                              </th>
+                              <th
+                                scope="col"
                                 className="relative py-3 pl-3 pr-4 sm:pr-6"
                               >
                                 <span className="sr-only">
@@ -287,12 +293,17 @@ export default function Example() {
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                   {record.content}
                                 </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                  <span className="bg-orange-500 px-2 py-1 rounded-full font-gold text-orange-100 text-sm">
+                                    {record.status}
+                                  </span>
+                                </td>
                                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                   <a
                                     href="#"
                                     className="text-indigo-600 hover:text-indigo-900"
                                     onClick={() => {
-                                      router.push("/reports/1");
+                                      router.push("/reports/" + record.id);
                                       console.log("click");
                                     }}
                                   >

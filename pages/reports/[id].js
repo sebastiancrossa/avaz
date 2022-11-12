@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 
 const navigation = [
   {
-    name: "Pending Reports",
+    name: "Reports",
     icon: InboxIcon,
     current: true,
   },
