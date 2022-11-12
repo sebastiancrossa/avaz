@@ -14,7 +14,11 @@ import { records } from "../../db";
 import { useRouter } from "next/router";
 
 const navigation = [
-  { name: "Pending Reports", href: "#", icon: InboxIcon, current: true },
+  {
+    name: "Pending Reports",
+    icon: InboxIcon,
+    current: true,
+  },
   // { name: "Team", href: "#", icon: UsersIcon, current: false },
   // { name: "Projects", href: "#", icon: FolderIcon, current: false },
   // { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
@@ -28,11 +32,18 @@ function classNames(...classes) {
 
 export default function Example() {
   const router = useRouter();
-  const id = router.query.id;
-
-  const [currentRecord, setCurrentRecord] = useState(records[id - 1]);
+  const [currentRecord, setCurrentRecord] = useState(null);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    if (router.isReady) {
+      const id = router.query.id;
+      const record = records.find((record) => record.id === id);
+
+      setCurrentRecord(records.find((record) => record.id === parseInt(id)));
+    }
+  }, [router.isReady]);
 
   return (
     <>
@@ -106,8 +117,9 @@ export default function Example() {
                             item.current
                               ? "bg-gray-100 text-gray-900"
                               : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                            "group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                            "group flex items-center px-2 py-2 text-base font-medium rounded-md cursor-pointer"
                           )}
+                          onClick={() => router.push("/")}
                         >
                           <item.icon
                             className={classNames(
@@ -169,12 +181,12 @@ export default function Example() {
                 {navigation.map((item) => (
                   <a
                     key={item.name}
-                    href={item.href}
+                    onClick={() => router.push("/")}
                     className={classNames(
                       item.current
                         ? "bg-gray-100 text-gray-900"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                      "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                      "group flex items-center px-2 py-2 text-sm font-medium rounded-m cursor-pointer"
                     )}
                   >
                     <item.icon
@@ -228,23 +240,26 @@ export default function Example() {
           <main className="flex-1">
             <div className="py-16">
               <div className="px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-6 gap-5 w-[95%] p-4">
-                  <div className="col-span-3 p-3 bg-white rounded-md border space-y-3">
-                    <h1 className="text-md text-gray-500">
-                      from {currentRecord.doctor}
-                    </h1>
+                {currentRecord && (
+                  <div className="grid grid-cols-6 gap-5 w-[95%] p-4">
+                    <div className="col-span-3 p-3 bg-white rounded-md border ">
+                      <h1 className="text-md text-gray-500">
+                        Doctor: {currentRecord.doctor}
+                      </h1>
 
-                    <div className="text-lg italic">
-                      "{currentRecord.content}"
+                      <div>
+                        Content:{" "}
+                        <span className="italic">
+                          "{currentRecord.content}"
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="col-span-3 p-3 bg-white rounded-md border ">
+                      <h1 className=" text-gray-900">results here</h1>
                     </div>
                   </div>
-
-                  <div className="col-span-3 p-3 bg-white rounded-md border ">
-                    <h1 className="text-xl font-bold text-gray-900">
-                      results here
-                    </h1>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </main>

@@ -11,6 +11,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { records } from "../db";
+import { useRouter } from "next/router";
 
 const navigation = [
   { name: "Pending Reports", href: "#", icon: InboxIcon, current: true },
@@ -26,6 +27,8 @@ function classNames(...classes) {
 }
 
 export default function Example() {
+  const router = useRouter();
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -282,6 +285,10 @@ export default function Example() {
                                   <a
                                     href="#"
                                     className="text-indigo-600 hover:text-indigo-900"
+                                    onClick={() => {
+                                      router.push("/reports/1");
+                                      console.log("click");
+                                    }}
                                   >
                                     Process
                                     <span className="sr-only">
