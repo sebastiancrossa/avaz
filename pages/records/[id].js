@@ -8,9 +8,7 @@ export default function RecordId() {
   const [currentRecord, setCurrentRecord] = useState(null);
   const [entities, setEntities] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const [highlightedContent, setHighlightedContent] = useState(null);
-  const [mappedIndices, setMappedIndices] = useState(null);
+  const [parsedTokens, setParsedTokens] = useState(null);
 
   useEffect(() => {
     const fetchEntities = async (content) => {
@@ -36,7 +34,30 @@ export default function RecordId() {
     }
   }, [router.isReady]);
 
-  const entityClassName = (type) => {
+  const parseContent = (entities, content) => {
+    if (entities && content) {
+      let elements = [];
+      let last = 0;
+      for (let i = 0; i < entities.length; i++) {
+        const entity = entities[i];
+        const start = entity.BeginOffset;
+        const end = entity.EndOffset;
+        const pre = content.substring(last, start);
+        const text = content.substring(start, end);
+        elements.push({ entity: false, value: pre });
+        elements.push({ entity: entity, value: text });
+        last = end + 1;
+      }
+      return elements;
+    }
+  };
+
+  useEffect(() => {
+    setParsedTokens(parseContent(entities, currentRecord?.content));
+  }, [entities]);
+
+  const entityClassName = (type, category) => {
+    if (category !== "PROTECTED_HEALTH_INFORMATION") return;
     switch (type) {
       case "AGE":
         return "text-orange-500 bg-orange-100 ";
@@ -64,7 +85,23 @@ export default function RecordId() {
             <h1 className="text-lg text-gray-700">
               From: Dr. {currentRecord.doctor}
             </h1>
-            <div className="my-6">{currentRecord.content}</div>
+            <div className="my-6">
+              {parsedTokens?.map((token) => {
+                if (token.entity) {
+                  return (
+                    <span
+                      className={`px-2 py-1 rounded-md ${entityClassName(
+                        token.entity.Type,
+                        token.entity.Category
+                      )}`}
+                    >
+                      {token.value}
+                    </span>
+                  );
+                }
+                return <span>{token.value} </span>;
+              })}
+            </div>
           </div>
           <div className="col-span-2 p-6 bg-white rounded-md border ">
             <h1 className="text-lg font-semibold text-gray-700 mb-6">
@@ -82,7 +119,8 @@ export default function RecordId() {
                       <div className="mb-1">
                         <span
                           className={`text-xs font-semibold px-2 py-1  rounded-full ${entityClassName(
-                            entity.Type
+                            entity.Type,
+                            entity.Category
                           )}`}
                         >
                           {entity.Type}

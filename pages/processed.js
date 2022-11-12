@@ -44,7 +44,7 @@ const ProcessedReports = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {records
-                    .filter((record) => record.status === "completed")
+                    .filter((record) => record.status === "processed")
                     .map((record) => (
                       <tr
                         key={record.id}
