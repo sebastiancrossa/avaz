@@ -33,26 +33,43 @@ function classNames(...classes) {
 export default function Example() {
   const router = useRouter();
   const [currentRecord, setCurrentRecord] = useState(null);
+  const [contentResult, setContentResult] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [highlightedContent, setHighlightedContent] = useState(null);
+
   const mappedIndices = testResponse.Entities.map((entity) => [
     entity.BeginOffset,
     entity.EndOffset,
   ]);
 
   useEffect(() => {
+    const fetchContentResult = async (content) => {
+      setLoading(true);
+
+      const response = await fetch(
+        `https://densegaseousequation.jonathanchavezt.repl.co/api/entities?text=${content}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      } else {
+        const data = await response.json();
+
+        console.log(data);
+
+        setContentResult(data);
+      }
+
+      setLoading(false);
+    };
+
     if (router.isReady) {
       const id = router.query.id;
       const record = records.find((record) => record.id === parseInt(id));
 
-      for (let i = 0; i < find.length; i++) {
-        const findRegExp = new RegExp("\\b" + find[i].namedEntity + "\\b", "g");
-        str = str.replace(findRegExp, function (match, index, wholeStr) {
-          const color = randomColor();
-          return `<span style="background: ${color}">${match}</span>`;
-        });
-      }
+      console.log(fetchContentResult(record.content));
 
       setHighlightedContent(
         mappedIndices
@@ -263,7 +280,8 @@ export default function Example() {
           <main className="flex-1">
             <div className="py-16">
               <div className="px-4 sm:px-6 lg:px-8">
-                {currentRecord && (
+                {loading && <h1>loading...</h1>}
+                {currentRecord && !loading && (
                   <div className="grid grid-cols-6 gap-5 w-[95%] p-4">
                     <div className="col-span-4 p-3 bg-white rounded-md border ">
                       <h1 className="text-md text-gray-500">
@@ -282,7 +300,7 @@ export default function Example() {
 
                     <div className="col-span-2 p-3 bg-white rounded-md border ">
                       <h1 className=" text-gray-900">
-                        {testResponse.Entities.map((item) => (
+                        {contentResult.map((item) => (
                           <div className="flex space-x-2">
                             <div className="text-md">{item.Text}</div>
                             <div className="text-md">
