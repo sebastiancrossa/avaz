@@ -69,8 +69,8 @@ const Modal = ({ open, setOpen }) => {
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Consequatur amet labore.
+                        Choose a media file to upload. Media files will be
+                        transcribed.
                       </p>
                     </div>
                   </div>

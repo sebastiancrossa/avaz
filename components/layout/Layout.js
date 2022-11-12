@@ -9,8 +9,6 @@ import { classNames, navigation } from "../../lib";
 export const Layout = ({ children }) => {
   const router = useRouter();
 
-  console.log(router.pathname);
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -81,13 +79,13 @@ export const Layout = ({ children }) => {
                       {navigation.map((item) => (
                         <a
                           key={item.name}
-                          href={item.href}
                           className={classNames(
                             item.current
                               ? "bg-gray-100 text-gray-900"
                               : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                            "group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                            "group flex items-center px-2 py-2 text-base font-medium rounded-md cursor-pointer"
                           )}
+                          onClick={() => router.push(item.href)}
                         >
                           <item.icon
                             className={classNames(
@@ -149,13 +147,13 @@ export const Layout = ({ children }) => {
                 {navigation.map((item) => (
                   <a
                     key={item.name}
-                    href={item.href}
                     className={classNames(
                       router.pathname === item.href
                         ? "bg-gray-100 text-gray-900"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                      "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                      "group flex items-center px-2 py-2 text-sm font-medium rounded-md cursor-pointer"
                     )}
+                    onClick={() => router.push(item.href)}
                   >
                     <item.icon
                       className={classNames(
