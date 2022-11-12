@@ -13,9 +13,27 @@ const records = [
       "Mr . Nesser is a 52 - year - old Caucasian male with an extensive past medical history that includes coronary artery disease , atrial fibrillation , hypertension , hyperlipidemia , presented to North ED with complaints of chills , nausea , acute left flank pain and some numbness in his left leg.",
     status: "pending",
   },
-  { id: 3, doctor: "John Doe", content: "Lorem ipsum", status: "pending" },
-  { id: 4, doctor: "Jane Doe", content: "Lorem ipsum", status: "pending" },
-  { id: 5, doctor: "John Doe", content: "Lorem ipsum", status: "pending" },
+  {
+    id: 3,
+    doctor: "Rahul Ligma",
+    content:
+      "38 yo G3P2 woman at 38 weeks gestation who was diagnosed with gestational hypertension and is being treated with labetalol. She presents to the clinic today for a routine check-up. HPI : Nausea, vomiting, and headache. She has been taking her medication as prescribed. Meds : Labetalol 100 mg po q12hrs Allergies : None reported at this time. OBGYN : fundal height 38 cm, fetal heart rate 140 bpm, no uterine tenderness, no cervical dilation or effacement. Follow-up in one week.",
+    status: "processed",
+  },
+  {
+    id: 4,
+    doctor: "Michael Johnson",
+    content:
+      "Pt is an 18 yo male with no significant medical history who presents to the clinic today with complaints of fatigue and flu-like symptoms for the past week. HPI : Fever of 102°F, chills, fatigue, myalgias, headache, and sore throat. He has been taking ibuprofen and Tylenol for his symptoms but they have not been relieved. He has also been drinking lots of fluids and resting. Meds : None Allergies : None reported at this time. Current Illness : 1 week of fatigue, fever, chills, myalgias, headache, and sore throat. Plans : Recommend over the counter medications for fever and sore throat.",
+    status: "pending",
+  },
+  {
+    id: 5,
+    doctor: "Jacob Moskovitz",
+    content:
+      "Sofia Lopez, 38 year old G2P1 presents to the clinic with a 3-day history of nausea, vomiting, and diarrhea. She also has a headache and has been feeling dizzy. She has no significant medical history and takes no medications. She works as a cashier. Address: Pine Street, Los Alamos, CA Phone: +1 878 1234 5678",
+    status: "processed",
+  },
 ];
 
 const testResponse = {
