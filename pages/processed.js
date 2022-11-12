@@ -51,7 +51,6 @@ const ProcessedReports = () => {
                         className="hover:bg-gray-100 cursor-pointer"
                         onClick={() => {
                           router.push("/records/" + record.id);
-                          console.log("click");
                         }}
                       >
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
@@ -63,7 +62,7 @@ const ProcessedReports = () => {
                             : record.content}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm">
-                          <span className="bg-orange-600 px-2 p-2 rounded-full font-gold text-orange-100 text-sm">
+                          <span className="bg-green-600 px-2 p-2 rounded-full font-gold text-green-100 text-sm">
                             {record.status}
                           </span>
                         </td>
