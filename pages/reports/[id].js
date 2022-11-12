@@ -69,7 +69,7 @@ export default function Example() {
       const id = router.query.id;
       const record = records.find((record) => record.id === parseInt(id));
 
-      console.log(fetchContentResult(record.content));
+      fetchContentResult(record.content);
 
       setHighlightedContent(
         mappedIndices
