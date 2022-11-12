@@ -10,7 +10,7 @@ import {
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { records } from "../../db";
+import { records, testResponse } from "../../db";
 import { useRouter } from "next/router";
 
 const navigation = [
@@ -35,13 +35,36 @@ export default function Example() {
   const [currentRecord, setCurrentRecord] = useState(null);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [highlightedContent, setHighlightedContent] = useState(null);
+  const mappedIndices = testResponse.Entities.map((entity) => [
+    entity.BeginOffset,
+    entity.EndOffset,
+  ]);
 
   useEffect(() => {
     if (router.isReady) {
       const id = router.query.id;
-      const record = records.find((record) => record.id === id);
+      const record = records.find((record) => record.id === parseInt(id));
 
-      setCurrentRecord(records.find((record) => record.id === parseInt(id)));
+      for (let i = 0; i < find.length; i++) {
+        const findRegExp = new RegExp("\\b" + find[i].namedEntity + "\\b", "g");
+        str = str.replace(findRegExp, function (match, index, wholeStr) {
+          const color = randomColor();
+          return `<span style="background: ${color}">${match}</span>`;
+        });
+      }
+
+      setHighlightedContent(
+        mappedIndices
+          .reduce((str, [start, end]) => {
+            str[start] = `<span class="bg-yellow-400">${str[start]}`;
+            str[end] = `${str[end]}</span>`;
+            return str;
+          }, record.content.split(""))
+          .join("")
+      );
+
+      setCurrentRecord(record);
     }
   }, [router.isReady]);
 
@@ -242,21 +265,36 @@ export default function Example() {
               <div className="px-4 sm:px-6 lg:px-8">
                 {currentRecord && (
                   <div className="grid grid-cols-6 gap-5 w-[95%] p-4">
-                    <div className="col-span-3 p-3 bg-white rounded-md border ">
+                    <div className="col-span-4 p-3 bg-white rounded-md border ">
                       <h1 className="text-md text-gray-500">
                         Doctor: {currentRecord.doctor}
                       </h1>
 
                       <div>
                         Content:{" "}
-                        <span className="italic">
-                          "{currentRecord.content}"
-                        </span>
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: highlightedContent,
+                          }}
+                        />
                       </div>
                     </div>
 
-                    <div className="col-span-3 p-3 bg-white rounded-md border ">
-                      <h1 className=" text-gray-900">results here</h1>
+                    <div className="col-span-2 p-3 bg-white rounded-md border ">
+                      <h1 className=" text-gray-900">
+                        {testResponse.Entities.map((item) => (
+                          <div className="flex space-x-2">
+                            <div className="text-md">{item.Text}</div>
+                            <div className="text-md">
+                              {
+                                item.Score.toString().match(
+                                  /^-?\d+(?:\.\d{0,2})?/
+                                )[0]
+                              }
+                            </div>
+                          </div>
+                        ))}
+                      </h1>
                     </div>
                   </div>
                 )}

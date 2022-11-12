@@ -290,7 +290,7 @@ export default function Example() {
                                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                   {record.doctor}
                                 </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <td className="px-3 py-4 text-sm text-gray-500 text-ellipsis ">
                                   {record.content}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
